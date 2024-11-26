@@ -6,6 +6,7 @@ import discord from "../../Assets/Projects/discord.png";
 import books from "../../Assets/Projects/books.jpg";
 import flower from "../../Assets/Projects/image_flower.png";
 import gemini from "../../Assets/Projects/gemini.png";
+import nft from "../../Assets/Projects/nft.png";
 import bank from "../../Assets/Projects/image_bank.png";
 
 function Projects() {
@@ -71,17 +72,15 @@ function Projects() {
             />
           </Col>
 
-          {/* <Col md={4} className="project-card">
+          <Col md={4} className="project-card">
             <ProjectCard
-              imgPath={emotion}
+              imgPath={nft}
               isBlog={false}
-              title="Face Recognition and Emotion Detection"
-              description="Trained a CNN classifier using 'FER-2013 dataset' with Keras and tensorflow backened. The classifier sucessfully predicted the various types of emotions of human. And the highest accuracy obtained with the model was 60.1%.
-              Then used Open-CV to detect the face in an image and then pass the face to the classifer to predict the emotion of a person."
-              ghLink="https://github.com/soumyajit4419/Face_And_Emotion_Detection"
-              // demoLink="https://blogs.soumya-jit.tech/"      <--------Please include a demo link here
+              title="Nereus NFT"
+              description="Nereus is a dynamic NFT platform built for seamless minting, selling, and viewing of digital assets. With a user-friendly interface, it empowers creators to tokenize their work and connect with buyers effortlessly. Leveraging modern web technologies, Nereus ensures a smooth and secure experience in the evolving NFT ecosystem."
+              demoLink="https://nereus.netlify.app/"
             />
-          </Col> */}
+          </Col>
         </Row>
       </Container>
     </Container>
