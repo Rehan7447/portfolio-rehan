@@ -6,11 +6,79 @@
    Base layer — graphite ground, one signal color, native scrolling.
    ─────────────────────────────────────────────────────────────────────── */
 @layer base {
+  /* ── Dark: the default ground. Also the no-JS fallback. ───────────────── */
   :root {
-    --bg: #0b0c0e;
-    --accent: #6b8cff;
+    --c-void: 8 9 11;
+    --c-bg: 11 12 14;
+    --c-surface: 17 19 22;
+    --c-surface-2: 22 24 28;
+    --c-line: 34 37 43;
+    --c-line-strong: 46 50 58;
+
+    --c-text: 237 238 240;
+    --c-text-strong: 255 255 255;
+    --c-muted: 155 161 169;
+    --c-dim: 108 113 120;
+
+    --c-accent: 107 140 255;
+    --c-accent-soft: 157 178 255;
+    --c-accent-dim: 78 107 214;
+
+    --c-ok: 52 211 153;
+    --c-danger: 248 113 113;
+
+    /* Effects that can't be expressed as a flat token. */
+    --grid-line: rgba(255, 255, 255, 0.022);
+    --selection: rgba(107, 140, 255, 0.28);
+    --scroll-thumb: #22252b;
+    --scroll-thumb-hover: #2e323a;
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4),
+      0 8px 24px -12px rgba(0, 0, 0, 0.6);
+    --shadow-lift: 0 1px 2px rgba(0, 0, 0, 0.4),
+      0 16px 40px -16px rgba(0, 0, 0, 0.75);
+
     --max: 1120px;
     color-scheme: dark;
+  }
+
+  /* ── Light. Not an inversion: the greys are re-picked so `muted` and `dim`
+     clear 4.5:1 on white, and the signal blue darkens to stay readable. ── */
+  :root[data-theme="light"] {
+    --c-void: 238 240 243;
+    --c-bg: 255 255 255;
+    --c-surface: 247 248 250;
+    --c-surface-2: 240 242 245;
+    --c-line: 226 229 234;
+    --c-line-strong: 209 214 221;
+
+    --c-text: 20 22 26;
+    --c-text-strong: 0 0 0;
+    --c-muted: 86 92 102;
+    --c-dim: 107 114 124;
+
+    --c-accent: 58 84 214;
+    --c-accent-soft: 45 66 184;
+    --c-accent-dim: 92 116 235;
+
+    --c-ok: 5 150 105;
+    --c-danger: 220 38 38;
+
+    --grid-line: rgba(0, 0, 0, 0.04);
+    --selection: rgba(58, 84, 214, 0.18);
+    --scroll-thumb: #d1d6dd;
+    --scroll-thumb-hover: #b8bfc9;
+    --shadow-card: 0 1px 2px rgba(16, 20, 28, 0.06),
+      0 8px 24px -12px rgba(16, 20, 28, 0.18);
+    --shadow-lift: 0 1px 2px rgba(16, 20, 28, 0.06),
+      0 16px 40px -16px rgba(16, 20, 28, 0.24);
+
+    color-scheme: light;
+  }
+
+  /* Back-compat aliases for the two variables consumed outside Tailwind. */
+  :root {
+    --bg: rgb(var(--c-bg));
+    --accent: rgb(var(--c-accent));
   }
 
   * {
@@ -33,7 +101,7 @@
   }
 
   ::selection {
-    background: rgba(107, 140, 255, 0.28);
+    background: var(--selection);
     color: theme("colors.text");
   }
 
@@ -57,15 +125,15 @@
     height: 10px;
   }
   ::-webkit-scrollbar-track {
-    background: #0b0c0e;
+    background: var(--bg);
   }
   ::-webkit-scrollbar-thumb {
-    background: #22252b;
+    background: var(--scroll-thumb);
     border-radius: 99px;
-    border: 2px solid #0b0c0e;
+    border: 2px solid var(--bg);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #2e323a;
+    background: var(--scroll-thumb-hover);
   }
 }
 
@@ -94,6 +162,19 @@
     color: theme("colors.dim");
   }
 
+  /* Theme-toggle icons.
+     Which glyph shows is decided by the resolved `data-theme` attribute, not by
+     React state — the markup is identical on server and client, so there is no
+     hydration mismatch and no wrong-icon flash before hydration. */
+  .theme-icon {
+    display: none;
+  }
+  :root[data-theme="dark"] .theme-icon-when-dark,
+  :root[data-theme="light"] .theme-icon-when-light,
+  :root:not([data-theme]) .theme-icon-when-dark {
+    display: block;
+  }
+
   /* Bordered surface used for cards and panels. */
   .panel {
     border-radius: 0.875rem;
@@ -106,11 +187,8 @@
 @layer utilities {
   /* Faint technical grid, used once in the hero and nowhere else. */
   .bg-grid {
-    background-image: linear-gradient(
-        rgba(255, 255, 255, 0.022) 1px,
-        transparent 1px
-      ),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+    background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
     background-size: 64px 64px;
   }
 

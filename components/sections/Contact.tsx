@@ -169,7 +169,7 @@ export function Contact() {
             <div className="rounded-xl border border-line bg-surface p-6 md:p-8">
               {status === "success" ? (
                 <div className="flex min-h-[26rem] flex-col items-center justify-center text-center">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-full border border-emerald-400/30 bg-emerald-400/10 text-emerald-400">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full border border-ok/30 bg-ok/10 text-ok">
                     <FiCheck className="h-5 w-5" />
                   </span>
                   <h3 className="mt-5 text-lg font-semibold text-text">
@@ -256,7 +256,7 @@ export function Contact() {
                   {status === "error" && (
                     <p
                       role="alert"
-                      className="flex items-center gap-2 text-sm text-red-400"
+                      className="flex items-center gap-2 text-sm text-danger"
                     >
                       <FiAlertCircle className="h-4 w-4 shrink-0" aria-hidden />
                       {error}
@@ -266,7 +266,7 @@ export function Contact() {
                   <button
                     type="submit"
                     disabled={status === "submitting"}
-                    className="group mt-1 inline-flex items-center justify-center gap-2 rounded-lg bg-text px-5 py-3 text-sm font-medium text-void transition-colors hover:bg-white disabled:cursor-not-allowed disabled:opacity-55"
+                    className="group mt-1 inline-flex items-center justify-center gap-2 rounded-lg bg-text px-5 py-3 text-sm font-medium text-void transition-colors hover:bg-text-strong disabled:cursor-not-allowed disabled:opacity-55"
                   >
                     {status === "submitting" ? (
                       <>

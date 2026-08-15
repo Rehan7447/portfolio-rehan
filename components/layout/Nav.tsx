@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { navLinks, siteConfig } from "@/lib/content";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { cn } from "@/lib/utils";
 
 export function Nav() {
@@ -104,43 +105,49 @@ export function Nav() {
               );
             })}
             <li className="ml-2">
+              <ThemeToggle />
+            </li>
+            <li className="ml-1">
               <Link
                 href="/#contact"
-                className="rounded-lg bg-text px-4 py-2 text-sm font-medium text-void transition-colors hover:bg-white"
+                className="rounded-lg bg-text px-4 py-2 text-sm font-medium text-void transition-colors hover:bg-text-strong"
               >
                 Start a project
               </Link>
             </li>
           </ul>
 
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            className="relative z-50 flex h-9 w-9 items-center justify-center rounded-lg border border-line text-text md:hidden"
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-          >
-            <span className="flex flex-col gap-[5px]">
-              <span
-                className={cn(
-                  "block h-px w-4 bg-current transition-transform duration-200",
-                  open && "translate-y-[6px] rotate-45"
-                )}
-              />
-              <span
-                className={cn(
-                  "block h-px w-4 bg-current transition-opacity duration-200",
-                  open && "opacity-0"
-                )}
-              />
-              <span
-                className={cn(
-                  "block h-px w-4 bg-current transition-transform duration-200",
-                  open && "-translate-y-[6px] -rotate-45"
-                )}
-              />
-            </span>
-          </button>
+          <div className="flex items-center gap-2 md:hidden">
+            <ThemeToggle className="relative z-50" />
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              className="relative z-50 flex h-9 w-9 items-center justify-center rounded-lg border border-line text-text"
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+            >
+              <span className="flex flex-col gap-[5px]">
+                <span
+                  className={cn(
+                    "block h-px w-4 bg-current transition-transform duration-200",
+                    open && "translate-y-[6px] rotate-45"
+                  )}
+                />
+                <span
+                  className={cn(
+                    "block h-px w-4 bg-current transition-opacity duration-200",
+                    open && "opacity-0"
+                  )}
+                />
+                <span
+                  className={cn(
+                    "block h-px w-4 bg-current transition-transform duration-200",
+                    open && "-translate-y-[6px] -rotate-45"
+                  )}
+                />
+              </span>
+            </button>
+          </div>
         </nav>
       </div>
 

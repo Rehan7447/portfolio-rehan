@@ -6,36 +6,53 @@ import type { Config } from "tailwindcss";
  * The palette is deliberately near-monochrome: a graphite ground with one
  * signal color. Color carries meaning here (links, focus, active state) rather
  * than decoration, which is what keeps a dense technical page readable.
+ *
+ * Every token resolves through a CSS variable holding bare RGB channels, so the
+ * same utility class (`text-muted`, `bg-surface/40`) works in both themes and
+ * Tailwind's opacity modifiers keep working. The channel values live in
+ * `app/globals.css`; the light theme swaps them, nothing else.
  */
+const token = (name: string) => `rgb(var(--c-${name}) / <alpha-value>)`;
+
 const config: Config = {
   content: [
     "./app/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
     "./lib/**/*.{ts,tsx}",
   ],
+  // The theme is an explicit attribute on <html> — set before paint by the
+  // inline script in the root layout — so `dark:` follows the resolved choice
+  // rather than the OS alone.
+  darkMode: ["class", '[data-theme="dark"]'],
   theme: {
     extend: {
       colors: {
         // Ground
-        void: "#08090B",
-        bg: "#0B0C0E",
-        surface: "#111316",
-        "surface-2": "#16181C",
-        line: "#22252B",
-        "line-strong": "#2E323A",
+        void: token("void"),
+        bg: token("bg"),
+        surface: token("surface"),
+        "surface-2": token("surface-2"),
+        line: token("line"),
+        "line-strong": token("line-strong"),
 
         // Type
-        text: "#EDEEF0",
-        muted: "#9BA1A9",
-        dim: "#6C7178",
+        text: token("text"),
+        // Maximum-contrast ink, used for the hover state of inverted buttons.
+        "text-strong": token("text-strong"),
+        muted: token("muted"),
+        dim: token("dim"),
 
         // Signal — used sparingly: links, focus, active nav, key numbers.
         accent: {
-          DEFAULT: "#6B8CFF",
-          soft: "#9DB2FF",
-          dim: "#4E6BD6",
-          faint: "rgba(107,140,255,0.12)",
+          DEFAULT: token("accent"),
+          soft: token("accent-soft"),
+          dim: token("accent-dim"),
+          faint: "rgb(var(--c-accent) / 0.12)",
         },
+
+        // Status — one step darker in light mode so small text stays legible.
+        ok: token("ok"),
+        danger: token("danger"),
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
@@ -49,8 +66,8 @@ const config: Config = {
         prose: "68ch",
       },
       boxShadow: {
-        card: "0 1px 2px rgba(0,0,0,0.4), 0 8px 24px -12px rgba(0,0,0,0.6)",
-        lift: "0 1px 2px rgba(0,0,0,0.4), 0 16px 40px -16px rgba(0,0,0,0.75)",
+        card: "var(--shadow-card)",
+        lift: "var(--shadow-lift)",
       },
       keyframes: {
         "fade-up": {

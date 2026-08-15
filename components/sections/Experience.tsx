@@ -38,7 +38,7 @@ export function Experience() {
                     )}
                     {role.current && (
                       <span
-                        className="inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400"
+                        className="inline-flex h-1.5 w-1.5 rounded-full bg-ok"
                         aria-label="Current role"
                       />
                     )}

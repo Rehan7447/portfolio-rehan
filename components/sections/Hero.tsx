@@ -28,8 +28,8 @@ export function Hero() {
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5">
             <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/60" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-ok/60" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-ok" />
             </span>
             <span className="font-mono text-xs text-muted">
               Available for freelance &amp; contract work

@@ -4,6 +4,7 @@ import "./globals.css";
 import { siteConfig, socials, education } from "@/lib/content";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
+import { THEME_COLOR, themeInitScript } from "@/lib/theme";
 
 const sans = Inter({
   subsets: ["latin"],
@@ -77,8 +78,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0B0C0E",
-  colorScheme: "dark",
+  // A single tag, corrected before paint by the theme script — a media-split
+  // pair would ignore an explicit choice that disagrees with the OS.
+  themeColor: THEME_COLOR.dark,
+  colorScheme: "light dark",
   width: "device-width",
   initialScale: 1,
 };
@@ -162,7 +165,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
+    <html
+      lang="en"
+      className={`${sans.variable} ${mono.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        {/* Must run before first paint, and before anything renders, so the
+            correct ground is on screen from the very first frame. */}
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className="antialiased">
         <a
           href="#main"
