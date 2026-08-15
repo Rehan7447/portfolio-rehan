@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ───────────────────────────────────────────────────────────────────────
+   Base layer — graphite ground, one signal color, native scrolling.
+   ─────────────────────────────────────────────────────────────────────── */
+@layer base {
+  :root {
+    --bg: #0b0c0e;
+    --accent: #6b8cff;
+    --max: 1120px;
+    color-scheme: dark;
+  }
+
+  * {
+    border-color: theme("colors.line");
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    /* Native smooth scroll for in-page anchors — no scroll-jacking library. */
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: theme("colors.text");
+    font-family: theme("fontFamily.sans");
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgba(107, 140, 255, 0.28);
+    color: theme("colors.text");
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  /* Visible, consistent keyboard focus everywhere. */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0b0c0e;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #22252b;
+    border-radius: 99px;
+    border: 2px solid #0b0c0e;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2e323a;
+  }
+}
+
+@layer components {
+  .container-px {
+    width: 100%;
+    max-width: var(--max);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-px {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  /* Small mono label above a section title. */
+  .kicker {
+    font-family: theme("fontFamily.mono");
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: theme("colors.dim");
+  }
+
+  /* Bordered surface used for cards and panels. */
+  .panel {
+    border-radius: 0.875rem;
+    border-width: 1px;
+    border-color: theme("colors.line");
+    background-color: theme("colors.surface");
+  }
+}
+
+@layer utilities {
+  /* Faint technical grid, used once in the hero and nowhere else. */
+  .bg-grid {
+    background-image: linear-gradient(
+        rgba(255, 255, 255, 0.022) 1px,
+        transparent 1px
+      ),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  .mask-fade {
+    -webkit-mask-image: radial-gradient(
+      ellipse 65% 55% at 50% 30%,
+      #000 40%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 65% 55% at 50% 30%,
+      #000 40%,
+      transparent 100%
+    );
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  html {
+    scroll-behavior: auto !important;
+  }
+}
