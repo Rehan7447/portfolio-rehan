@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 
 export const runtime = "nodejs";
 
@@ -56,14 +56,17 @@ export async function POST(req: Request) {
     );
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.CONTACT_FROM_EMAIL;
+  const host = process.env.SMTP_HOST;
+  const port = Number(process.env.SMTP_PORT || 587);
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASSWORD;
+  const from = process.env.CONTACT_FROM_EMAIL || user;
   const to = process.env.CONTACT_TO_EMAIL;
 
   // Dev / unconfigured fallback: log instead of failing, so the form still
   // returns success states locally before email delivery is wired up.
-  if (!apiKey || !from || !to) {
-    console.info("[contact] (no email provider configured) submission:", {
+  if (!host || !user || !pass || !from || !to) {
+    console.info("[contact] (no SMTP configured) submission:", {
       name,
       email,
       projectType,
@@ -73,8 +76,14 @@ export async function POST(req: Request) {
   }
 
   try {
-    const resend = new Resend(apiKey);
-    const { error } = await resend.emails.send({
+    const transporter = nodemailer.createTransport({
+      host,
+      port,
+      secure: port === 465, // 465 = implicit TLS; 587 upgrades via STARTTLS
+      auth: { user, pass },
+    });
+
+    await transporter.sendMail({
       from,
       to,
       replyTo: email,
@@ -92,17 +101,9 @@ export async function POST(req: Request) {
       `,
     });
 
-    if (error) {
-      console.error("[contact] Resend error:", error);
-      return NextResponse.json(
-        { error: "Could not send right now. Please email me directly." },
-        { status: 502 }
-      );
-    }
-
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error("[contact] unexpected error:", err);
+    console.error("[contact] SMTP send failed:", err);
     return NextResponse.json(
       { error: "Could not send right now. Please email me directly." },
       { status: 500 }
