@@ -1,4 +1,5 @@
-import { FiCpu, FiLayers, FiServer } from "react-icons/fi";
+import Link from "next/link";
+import { FiArrowRight, FiCpu, FiLayers, FiServer } from "react-icons/fi";
 import type { IconType } from "react-icons";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
@@ -25,7 +26,12 @@ export function Services() {
           const Icon = icons[s.id] ?? FiCpu;
           return (
             <RevealItem key={s.id} className="h-full">
-              <article className="flex h-full flex-col rounded-xl border border-line bg-surface p-6">
+              {/* The whole card is the link — the detail page is where the
+                  commercial-intent keywords and the deeper proof live. */}
+              <Link
+                href={`/services/${s.id}`}
+                className="group flex h-full flex-col rounded-xl border border-line bg-surface p-6 transition-colors hover:border-line-strong hover:bg-surface-2"
+              >
                 <div className="flex items-center justify-between">
                   <span
                     className="flex h-9 w-9 items-center justify-center rounded-lg border border-line bg-bg text-accent"
@@ -57,7 +63,15 @@ export function Services() {
                     </li>
                   ))}
                 </ul>
-              </article>
+
+                <span className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm text-accent">
+                  {s.pageTitle}
+                  <FiArrowRight
+                    className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
+                    aria-hidden
+                  />
+                </span>
+              </Link>
             </RevealItem>
           );
         })}

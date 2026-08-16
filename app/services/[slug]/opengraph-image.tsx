@@ -1,0 +1,84 @@
+import { ImageResponse } from "next/og";
+import { getService, services, siteConfig } from "@/lib/content";
+
+export const alt = "Service";
+export const size = { width: 1200, height: 630 };
+export const contentType = "image/png";
+
+export function generateStaticParams() {
+  return services.map((s) => ({ slug: s.id }));
+}
+
+export default async function OgImage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const service = getService(slug);
+
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          background: "#0B0C0E",
+          backgroundImage:
+            "radial-gradient(circle at 15% -10%, rgba(107,140,255,0.20), transparent 55%)",
+          padding: "68px 72px",
+          fontFamily: "sans-serif",
+        }}
+      >
+        <div style={{ color: "#9DB2FF", fontSize: 26, letterSpacing: 3 }}>
+          {(service?.title ?? "Services").toUpperCase()}
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div
+            style={{
+              color: "#EDEEF0",
+              fontSize: 76,
+              fontWeight: 700,
+              letterSpacing: -3,
+              lineHeight: 1.06,
+              maxWidth: 1000,
+            }}
+          >
+            {service?.pageTitle ?? "Engineering services"}
+          </div>
+          <div
+            style={{
+              color: "#9BA1A9",
+              fontSize: 28,
+              maxWidth: 940,
+              lineHeight: 1.45,
+              marginTop: 22,
+            }}
+          >
+            {service?.blurb ?? ""}
+          </div>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            borderTop: "1px solid #22252B",
+            paddingTop: 26,
+            color: "#6C7178",
+            fontSize: 22,
+          }}
+        >
+          <span style={{ color: "#EDEEF0" }}>{siteConfig.name}</span>
+          <span>Free 30-min consult · Reply in 1 business day</span>
+        </div>
+      </div>
+    ),
+    { ...size }
+  );
+}

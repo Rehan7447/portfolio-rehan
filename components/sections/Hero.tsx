@@ -76,6 +76,14 @@ export function Hero() {
           </a>
         </div>
 
+        <p
+          className="mt-4 animate-fade-up text-[13px] leading-relaxed text-dim opacity-0 [animation-delay:340ms]"
+          style={{ animationFillMode: "forwards" }}
+        >
+          First call is a free 30-minute technical consultation — no obligation.
+          I reply to every serious inquiry within one business day.
+        </p>
+
         {/* Proof strip — every number here is verifiable. */}
         <dl
           className="mt-14 grid animate-fade-up grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line opacity-0 [animation-delay:380ms] md:mt-16 md:grid-cols-4"

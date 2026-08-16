@@ -98,12 +98,29 @@ export const about = {
 } as const;
 
 // ── What I do ────────────────────────────────────────────────────────────
+/**
+ * Each service is also a landing page at /services/<id>, generated from the
+ * fields below. `points` is the homepage summary; everything after it exists
+ * for the detail page and the structured data that goes with it.
+ */
 export type Service = {
   id: string;
   index: string;
   title: string;
   blurb: string;
   points: string[];
+  /** Page <h1> and meta title. Written for how people actually search. */
+  pageTitle: string;
+  metaDescription: string;
+  /** Two or three paragraphs of substance for the detail page. */
+  intro: string[];
+  /** What the client ends up with. Concrete, not adjectives. */
+  deliverables: string[];
+  /** Signals that this is the right service to ask about. */
+  idealFor: string[];
+  /** Case-study slugs that evidence this service. */
+  evidence: string[];
+  keywords: string[];
 };
 
 export const services: Service[] = [
@@ -118,6 +135,39 @@ export const services: Service[] = [
       "Claude and OpenAI integrations with prompt engineering and explainable outputs",
       "Voice AI on Retell, Twilio, ElevenLabs, and Deepgram with sub-second latency",
     ],
+    pageTitle: "AI & LLM Development Services",
+    metaDescription:
+      "RAG pipelines, Claude and OpenAI integrations, and production voice AI — built by a senior engineer who ships the product around the model, not just the demo.",
+    intro: [
+      "Most AI projects don't fail at the model. They fail at everything around it: retrieval that returns the wrong chunks, outputs that don't parse, latency that makes a voice agent unusable, and no way to tell whether a change made things better or worse.",
+      "I build the parts that make an LLM feature safe to put in front of customers — retrieval before generation, structured output validation on every response, and grounding so an answer traces back to the source it came from. Then I wire it into the product properly: auth, rate limits, cost controls, and the UI that surrounds it.",
+      "This is work I've shipped, not surveyed. A RAG platform normalising multi-source data into explainable output. A voice agent platform holding sub-600ms on live calls with HIPAA compliance behind it. AI-assisted case analysis inside a Spring Boot dispute-resolution SaaS.",
+    ],
+    deliverables: [
+      "A retrieval pipeline — ingestion, chunking, embeddings, and pgvector search tuned against your actual corpus",
+      "Structured output contracts with validation, so downstream systems get reliable shapes instead of prose",
+      "Grounding and citation, so every answer traces back to the source data it came from",
+      "Voice agents on Retell, Twilio, ElevenLabs, or Deepgram with latency budgets that hold on live calls",
+      "Cost and rate-limit controls, prompt versioning, and a way to measure whether a change helped",
+      "The product engineering around it: API, auth, storage, dashboard, and deployment",
+    ],
+    idealFor: [
+      "You have a working prototype and need it reliable enough to charge for",
+      "Your assistant makes things up and you need retrieval and grounding",
+      "You want a voice agent handling real inbound or outbound calls",
+      "You need structured extraction from documents your business already holds",
+    ],
+    evidence: ["holistic-researcher", "voiceos", "e-arbitrator"],
+    keywords: [
+      "AI developer",
+      "LLM developer",
+      "RAG developer",
+      "Claude API developer",
+      "OpenAI integration",
+      "pgvector",
+      "voice AI developer",
+      "AI consultant",
+    ],
   },
   {
     id: "product",
@@ -129,6 +179,39 @@ export const services: Service[] = [
       "Multi-tenant SaaS on Next.js, NestJS, Spring Boot, and PostgreSQL",
       "React Native apps shipped to the App Store and Play Store at scale",
       "Payments, auth, and third-party integrations: Stripe, OAuth, DocuSign, Zoom",
+    ],
+    pageTitle: "Full-Stack Web & Mobile Development",
+    metaDescription:
+      "Multi-tenant SaaS on Next.js, NestJS, and PostgreSQL, plus React Native apps shipped to both stores. One engineer from schema design through deployment.",
+    intro: [
+      "One person who can design the schema, build the API, write the front end, and deploy it removes the coordination cost that eats small teams. That's the shape of most of my engagements.",
+      "I work in TypeScript end to end where it makes sense — Next.js App Router on the front, NestJS or Node on the back, Prisma over PostgreSQL — and reach for Java Spring Boot when the domain calls for it. Mobile is React Native with Expo, shipped to both stores.",
+      "The integrations that usually stall a build are ones I've already done: Stripe subscriptions and ACH microdeposits, OAuth and role-based access across tenants, DocuSign, Zoom, GoHighLevel, HubSpot.",
+    ],
+    deliverables: [
+      "A data model designed before the code, with migrations that survive contact with production",
+      "Typed APIs — REST or GraphQL — with the auth and multi-tenancy boundaries enforced at the right layer",
+      "A front end built on Next.js App Router: server-rendered, accessible, and fast on real devices",
+      "React Native apps taken through App Store and Play Store review, not just to a simulator",
+      "Payments and billing wired end to end, including the states everyone forgets — failed charges, refunds, proration",
+      "CI/CD, environment separation, and handover documentation your team can act on",
+    ],
+    idealFor: [
+      "You're building v1 of a SaaS product and need someone who can own the whole stack",
+      "You have a live product that needs features shipped faster than your current pace",
+      "You need a mobile app that shares a backend with your web product",
+      "You've inherited a codebase and need someone to stabilise and extend it",
+    ],
+    evidence: ["e-arbitrator", "bayut-pro", "mad-muscles"],
+    keywords: [
+      "full stack developer",
+      "Next.js developer",
+      "NestJS developer",
+      "React developer",
+      "React Native developer",
+      "SaaS developer",
+      "multi-tenant SaaS",
+      "freelance developer",
     ],
   },
   {
@@ -142,8 +225,45 @@ export const services: Service[] = [
       "AWS and Azure infrastructure with Docker, Kubernetes, Terraform, and CI/CD",
       "Banking-grade pipelines: SFTP processing, reconciliation, and audit trails",
     ],
+    pageTitle: "Backend, Cloud & Platform Engineering",
+    metaDescription:
+      "Event-driven microservices, AWS and Azure infrastructure in Terraform, and compliance-grade data pipelines — including HIPAA de-identification and ACH/wire processing.",
+    intro: [
+      "When money or health data moves through a system, correctness stops being a preference. This is the half of my work that lives underneath the product: queues, reconciliation, audit trails, and the infrastructure they run on.",
+      "On the fintech side that has meant ACH and wire pipelines on pacs.008, camt.053, and camt.056, SFTP file processing that replaced manual banking workflows, and event-driven queues for operations that cannot be retried carelessly.",
+      "On the platform side it has meant Terraform environments standing up VPCs, RDS, ECS Fargate services and Lambda authorizers from scratch; GitHub Actions CI/CD with OIDC keyless auth and fail-closed guards against misrouted deploys; and a HIPAA Safe Harbor de-identification pipeline that strips PII while keeping aggregate analytics intact.",
+    ],
+    deliverables: [
+      "Service boundaries drawn where the domain actually splits, not where the org chart does",
+      "Queue and event architecture — BullMQ, RabbitMQ, EventBridge — with retry, dead-lettering, and idempotency",
+      "Infrastructure as code in Terraform, reproducible across dev, staging, and production accounts",
+      "CI/CD on GitHub Actions with keyless OIDC auth, branch-to-environment routing, and automatic rollback",
+      "Compliance-grade data handling: audit trails, reconciliation, and de-identification pipelines",
+      "Cost work — Fargate Spot, right-sized RDS, and the monitoring to know when it drifts",
+    ],
+    idealFor: [
+      "Your monolith is slowing you down and you need a considered path out",
+      "You're moving financial or health data and need the compliance story to hold up",
+      "Your deploys are manual, risky, or take a person's afternoon",
+      "Your cloud bill is growing faster than your traffic",
+    ],
+    evidence: ["fintech-transaction-platform", "rasandpay", "voiceos"],
+    keywords: [
+      "backend developer",
+      "platform engineer",
+      "AWS developer",
+      "Terraform engineer",
+      "microservices developer",
+      "fintech backend developer",
+      "DevOps engineer",
+      "HIPAA compliant development",
+    ],
   },
 ];
+
+export function getService(id: string) {
+  return services.find((s) => s.id === id);
+}
 
 // ── Tech stack ───────────────────────────────────────────────────────────
 export type TechGroup = { label: string; items: string[] };
@@ -581,5 +701,17 @@ export const faqs = [
   {
     q: "How do engagements usually start?",
     a: "A short call to understand the problem, then a written scope with milestones and a fixed estimate. You know the plan and the cost before the first commit.",
+  },
+  {
+    q: "What does the first call cost?",
+    a: "Nothing. The first conversation is a free 30-minute technical consultation — you describe the problem, I tell you how I'd approach it and roughly what it takes. If I'm not the right person for it, I'll say so and point you somewhere better. There's no obligation and no pitch deck.",
+  },
+  {
+    q: "How do you price work?",
+    a: "Fixed-price per milestone for scoped work, hourly for open-ended or ongoing engagements. Either way you get the estimate in writing before anything starts, and I flag scope changes when they happen rather than at invoice time.",
+  },
+  {
+    q: "Can an AI assistant contact you on my behalf?",
+    a: "Yes. There's a documented API at /for-ai-agents that ChatGPT, Claude, Cursor, or any MCP-connected agent can call to pass your details over directly, so you don't have to go find a form. It only works with your explicit consent — the endpoint rejects submissions that don't carry it — and you get the same free 30-minute consultation and same one-business-day reply.",
   },
 ];

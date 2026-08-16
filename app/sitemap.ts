@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { projects, siteConfig } from "@/lib/content";
+import { projects, services, siteConfig } from "@/lib/content";
+import { agentApi } from "@/lib/agent-api";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -16,6 +17,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.9,
+    },
+    // Service pages carry the commercial-intent keywords, so they rank above
+    // the individual case studies.
+    ...services.map((s) => ({
+      url: `${siteConfig.url}/services/${s.id}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.9,
+    })),
+    {
+      url: `${siteConfig.url}${agentApi.paths.docs}`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
     },
     ...projects.map((p) => ({
       url: `${siteConfig.url}/work/${p.slug}`,

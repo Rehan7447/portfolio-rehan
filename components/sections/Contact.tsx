@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import Link from "next/link";
 import {
   FiMail,
   FiGithub,
@@ -23,6 +24,25 @@ const projectTypes = [
   "Backend / API work",
   "Mobile app",
   "Something else",
+];
+
+// Ranges rather than a free-text box: it takes one click, and a range is
+// enough to tell a two-week scope from a two-quarter one before the call.
+const budgets = [
+  "Not sure yet",
+  "Under $5k",
+  "$5k — $15k",
+  "$15k — $50k",
+  "$50k+",
+  "Ongoing / retainer",
+];
+
+const timelines = [
+  "Not sure yet",
+  "ASAP",
+  "Within a month",
+  "1 — 3 months",
+  "Just exploring",
 ];
 
 const channels = [
@@ -72,6 +92,8 @@ export function Contact() {
       name: String(data.get("name") || "").trim(),
       email: String(data.get("email") || "").trim(),
       projectType: String(data.get("projectType") || ""),
+      budget: String(data.get("budget") || ""),
+      timeline: String(data.get("timeline") || ""),
       message: String(data.get("message") || "").trim(),
       company: String(data.get("company") || ""), // honeypot
     };
@@ -123,9 +145,32 @@ export function Contact() {
           <Reveal delay={0.05}>
             <p className="mt-6 max-w-prose text-pretty text-[0.9375rem] leading-relaxed text-muted md:text-base">
               Send over the problem and any constraints you already know about.
-              I reply to every serious inquiry, usually within a day, and the
-              first step is always a short call — no pitch deck.
+              The first step is a{" "}
+              <strong className="font-medium text-text">
+                free 30-minute technical consultation
+              </strong>{" "}
+              — you describe it, I tell you how I&apos;d approach it and what
+              it takes. No obligation, no pitch deck, and if I&apos;m not the
+              right person I&apos;ll say so.
             </p>
+          </Reveal>
+
+          <Reveal delay={0.07}>
+            <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2">
+              {[
+                "Reply within 1 business day",
+                "Written scope before any code",
+                "No newsletter, ever",
+              ].map((point) => (
+                <li
+                  key={point}
+                  className="inline-flex items-center gap-2 text-[13px] text-muted"
+                >
+                  <FiCheck className="h-3.5 w-3.5 shrink-0 text-ok" aria-hidden />
+                  {point}
+                </li>
+              ))}
+            </ul>
           </Reveal>
 
           <Reveal delay={0.1}>
@@ -162,6 +207,19 @@ export function Contact() {
               ))}
             </ul>
           </Reveal>
+
+          <Reveal delay={0.14}>
+            <p className="mt-6 text-pretty text-[13px] leading-relaxed text-dim">
+              Working with an AI assistant? It can send this inquiry for you —{" "}
+              <Link
+                href="/for-ai-agents"
+                className="text-muted underline underline-offset-4 transition-colors hover:text-text"
+              >
+                point it at the agent API
+              </Link>
+              .
+            </p>
+          </Reveal>
         </div>
 
         <div className="lg:col-span-7">
@@ -175,9 +233,10 @@ export function Contact() {
                   <h3 className="mt-5 text-lg font-semibold text-text">
                     Message sent
                   </h3>
-                  <p className="mt-2 max-w-sm text-sm leading-relaxed text-muted">
-                    Thanks for reaching out — I&apos;ll get back to you shortly,
-                    usually within a day.
+                  <p className="mt-2 max-w-sm text-pretty text-sm leading-relaxed text-muted">
+                    Thanks for reaching out. I&apos;ll reply within one business
+                    day to set up the free 30-minute consult — check your spam
+                    folder if it doesn&apos;t land.
                   </p>
                   <button
                     type="button"
@@ -223,24 +282,23 @@ export function Contact() {
                     </Field>
                   </div>
 
-                  <Field label="Project type" htmlFor="projectType">
-                    <select
-                      id="projectType"
-                      name="projectType"
-                      defaultValue={projectTypes[0]}
-                      className={`${inputCls} appearance-none bg-[length:12px] bg-[right_0.9rem_center] bg-no-repeat pr-10`}
-                      style={{
-                        backgroundImage:
-                          "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%236C7178' stroke-width='2'%3E%3Cpath d='M2 4l4 4 4-4'/%3E%3C/svg%3E\")",
-                      }}
-                    >
-                      {projectTypes.map((t) => (
-                        <option key={t} value={t} className="bg-bg">
-                          {t}
-                        </option>
-                      ))}
-                    </select>
-                  </Field>
+                  <Select
+                    label="Project type"
+                    name="projectType"
+                    options={projectTypes}
+                  />
+
+                  {/* Budget and timeline are optional in spirit — every list
+                      opens on "Not sure yet" so nobody stalls on a number they
+                      don't have. */}
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <Select label="Budget" name="budget" options={budgets} />
+                    <Select
+                      label="Timeline"
+                      name="timeline"
+                      options={timelines}
+                    />
+                  </div>
 
                   <Field label="Message" htmlFor="message">
                     <textarea
@@ -284,6 +342,11 @@ export function Contact() {
                     )}
                   </button>
 
+                  <p className="text-[13px] leading-relaxed text-dim">
+                    Goes straight to my inbox. Your details are used only to
+                    reply to this inquiry.
+                  </p>
+
                   <p className="sr-only" role="status" aria-live="polite">
                     {status === "submitting" ? "Sending your message" : ""}
                   </p>
@@ -316,5 +379,36 @@ function Field({
       </span>
       {children}
     </label>
+  );
+}
+
+const CHEVRON =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%236C7178' stroke-width='2'%3E%3Cpath d='M2 4l4 4 4-4'/%3E%3C/svg%3E\")";
+
+function Select({
+  label,
+  name,
+  options,
+}: {
+  label: string;
+  name: string;
+  options: string[];
+}) {
+  return (
+    <Field label={label} htmlFor={name}>
+      <select
+        id={name}
+        name={name}
+        defaultValue={options[0]}
+        className={`${inputCls} appearance-none bg-[length:12px] bg-[right_0.9rem_center] bg-no-repeat pr-10`}
+        style={{ backgroundImage: CHEVRON }}
+      >
+        {options.map((o) => (
+          <option key={o} value={o} className="bg-bg">
+            {o}
+          </option>
+        ))}
+      </select>
+    </Field>
   );
 }
