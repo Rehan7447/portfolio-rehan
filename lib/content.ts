@@ -12,6 +12,32 @@
  * ─────────────────────────────────────────────────────────────────────────
  */
 
+const FALLBACK_SITE_URL = "https://rehan.aventrexdigital.com";
+
+/**
+ * Normalises NEXT_PUBLIC_SITE_URL into an absolute, trailing-slash-free origin.
+ *
+ * Host dashboards happily accept a bare hostname ("example.com"), but that is
+ * not a valid URL — `new URL()` in the metadata config throws on it and takes
+ * the whole build down. A missing scheme is assumed to be https, a trailing
+ * slash is trimmed (call sites concatenate "/work" onto this), and anything
+ * still unparseable falls back rather than failing the build.
+ *
+ * The env var is read as a literal member expression so Next can inline it.
+ */
+function resolveSiteUrl(): string {
+  const raw = (process.env.NEXT_PUBLIC_SITE_URL || "").trim();
+  if (!raw) return FALLBACK_SITE_URL;
+
+  const absolute = /^https?:\/\//i.test(raw) ? raw : `https://${raw}`;
+  try {
+    const parsed = new URL(absolute);
+    return `${parsed.origin}${parsed.pathname}`.replace(/\/+$/, "");
+  } catch {
+    return FALLBACK_SITE_URL;
+  }
+}
+
 export const siteConfig = {
   name: "Rehan Ashraf",
   role: "Senior Full-Stack Developer & AI Engineer",
@@ -25,7 +51,7 @@ export const siteConfig = {
   yearsExperience: "5+",
   // Canonical site URL — drives sitemap, canonical tags, and OG images.
   // Override with NEXT_PUBLIC_SITE_URL in your environment / host settings.
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://rehan-ashraf.netlify.app",
+  url: resolveSiteUrl(),
 } as const;
 
 // ── Contact / profiles ───────────────────────────────────────────────────
