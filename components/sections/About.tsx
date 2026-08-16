@@ -1,7 +1,9 @@
+import Image from "next/image";
 import { FiArrowUpRight } from "react-icons/fi";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { about, socials } from "@/lib/content";
+import portrait from "@/public/rehan.jpeg";
 
 export function About() {
   return (
@@ -35,7 +37,29 @@ export function About() {
         </div>
 
         <div className="lg:col-span-5">
-          <Reveal delay={0.06} className="lg:sticky lg:top-24">
+          <Reveal delay={0.06}>
+            {/* Source is 9:16 — cropped to 3:4 so the frame keeps the ridgeline
+                without running the column absurdly tall. */}
+            <div className="group relative mb-6 aspect-[3/4] overflow-hidden rounded-xl border border-line">
+              <Image
+                src={portrait}
+                alt="Rehan Ashraf"
+                placeholder="blur"
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                /* A bright alpine photo blows out against the graphite ground,
+                   so dark mode dims it 30%. Light mode is left untouched, and
+                   hover restores the full image either way. */
+                className="object-cover object-center transition-[filter] duration-500 group-hover:brightness-100 dark:brightness-[0.7]"
+                fill
+              />
+              {/* Dark only — sits the photo into the ground instead of letting
+                  it float as a bright rectangle. */}
+              <div
+                className="pointer-events-none absolute inset-0 hidden bg-gradient-to-t from-bg/80 via-transparent to-transparent transition-opacity duration-500 group-hover:opacity-0 dark:block"
+                aria-hidden
+              />
+            </div>
+
             <dl className="grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-1">
               {about.facts.map((f) => (
                 <div key={f.label} className="bg-surface px-5 py-4">
