@@ -51,7 +51,7 @@ export function Work() {
         index="01"
         kicker="Selected Work"
         title="Products in production, not prototypes."
-        description="Seven builds across SaaS, AI, fintech, and consumer mobile. Each one links to a short case study covering what it does and how it's built."
+        description="SaaS, AI, fintech, and mobile builds. Each one links to a short case study covering what it does and how it's built."
       />
 
       <RevealGroup className="mt-12 grid gap-4 md:grid-cols-2 lg:gap-5">

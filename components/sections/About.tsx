@@ -38,8 +38,8 @@ export function About() {
 
         <div className="lg:col-span-5">
           <Reveal delay={0.06}>
-            {/* Source is 9:16 — cropped to 3:4 so the frame keeps the ridgeline
-                without running the column absurdly tall. */}
+            {/* Source is 4:3 landscape with the subject at ~37% across; a 21%
+                x-offset centres him in the 3:4 frame. */}
             <div className="group relative mb-6 aspect-[3/4] overflow-hidden rounded-xl border border-line">
               <Image
                 src={portrait}
@@ -49,7 +49,7 @@ export function About() {
                 /* A bright alpine photo blows out against the graphite ground,
                    so dark mode dims it 30%. Light mode is left untouched, and
                    hover restores the full image either way. */
-                className="object-cover object-center transition-[filter] duration-500 group-hover:brightness-100 dark:brightness-[0.7]"
+                className="object-cover object-[21%_50%] transition-[filter] duration-500 group-hover:brightness-100 dark:brightness-[0.7]"
                 fill
               />
               {/* Dark only — sits the photo into the ground instead of letting

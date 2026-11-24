@@ -157,7 +157,7 @@ export const services: Service[] = [
       "You want a voice agent handling real inbound or outbound calls",
       "You need structured extraction from documents your business already holds",
     ],
-    evidence: ["holistic-researcher", "voiceos", "e-arbitrator"],
+    evidence: ["prospect-engine", "holistic-researcher", "voiceos", "triprant"],
     keywords: [
       "AI developer",
       "LLM developer",
@@ -202,7 +202,7 @@ export const services: Service[] = [
       "You need a mobile app that shares a backend with your web product",
       "You've inherited a codebase and need someone to stabilise and extend it",
     ],
-    evidence: ["e-arbitrator", "bayut-pro", "mad-muscles"],
+    evidence: ["triprant", "sobriety-hub", "e-arbitrator", "histoc-shops"],
     keywords: [
       "full stack developer",
       "Next.js developer",
@@ -383,6 +383,124 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+  {
+    slug: "triprant",
+    title: "Triprant",
+    type: "Travel Marketplace",
+    summary:
+      "A travel marketplace where local guides, agencies, and hosts sell packages and quotes, with an AI assistant that plans trips.",
+    overview:
+      "Travel marketplace connecting travelers with local providers: guides, agencies, drivers, hotels, and activity operators. Providers sell fixed packages or custom quotes, and every booking runs through one inquiry, quote, accept, and book flow. An AI assistant acts for users through the same domain functions the app itself uses.",
+    highlights: [
+      "Inquiry, quote, accept, and booking flow shared by fixed packages and custom quotes",
+      "Gemini assistant that calls the app's own domain functions as tools, grounded with Google Search and Maps",
+      "Provider studio for packages, profile, and to-dos, plus a separate staff admin app",
+      "Typed domain layer with zod-validated input and permission checks inside every function",
+      "Web and mobile kept in parity from a shared Turborepo core",
+    ],
+    tags: [
+      "Next.js",
+      "TypeScript",
+      "Supabase",
+      "PostgreSQL",
+      "Gemini",
+      "Turborepo",
+      "Expo",
+    ],
+    href: "https://triprant.com",
+    hrefLabel: "View live",
+    featured: true,
+  },
+  {
+    slug: "sobriety-hub",
+    title: "Sobriety Hub",
+    type: "Healthcare SaaS",
+    summary:
+      "Sober living software for operators and residents: houses, compliance, chores, and a resident mobile app on one database.",
+    overview:
+      "Sober living management platform used by recovery housing operators, with a companion mobile app for residents. Staff run houses, residents, and compliance from the web app; residents check requirements, chores, and their own records from their phones.",
+    highlights: [
+      "Chore rotation with per-house schedules, UTC period boundaries, and an operations overview",
+      "Event requirements and compliance tracking scoped by house and resident tag",
+      "Resident profile edit requests that staff accept or reject field by field",
+      "Expo resident app sharing the staff app's PostgreSQL database, with webhook-driven push notifications",
+      "Per-table, house-scoped authorization across staff roles",
+    ],
+    tags: [
+      "Next.js",
+      "TypeScript",
+      "Prisma",
+      "PostgreSQL",
+      "React Query",
+      "Expo",
+      "React Native",
+    ],
+    href: "https://www.sobrietyhub.com",
+    hrefLabel: "View live",
+    featured: true,
+  },
+  {
+    slug: "prospect-engine",
+    title: "Prospect Engine",
+    type: "AI Sales Platform",
+    summary:
+      "Lead research and email outreach run from a chat, with self-hosted discovery and an AI that improves the pipeline.",
+    overview:
+      "Lead generation, outreach, and pipeline management platform that needs no setup. Each project has its own chat where the user manages leads, funnel, automation, and outreach, while a built-in AI researches prospects, drafts emails, and suggests pipeline improvements.",
+    highlights: [
+      "Self-hosted SearXNG discovery, with Apollo, Hunter, and Snov.io enrichment",
+      "Built-in Gemini AI for research, qualification, and drafting, with no customer API keys",
+      "Follow-up sequences of up to four steps that stop on any reply or bounce",
+      "Manual or automatic mode per stage, with persistent jobs, approval queues, and an activity trail",
+      "CSV import, credit-based usage, and Slack and Discord notifications",
+    ],
+    tags: [
+      "Next.js",
+      "TypeScript",
+      "PostgreSQL",
+      "Gemini",
+      "SearXNG",
+      "React Flow",
+      "Docker",
+    ],
+    featured: true,
+  },
+  {
+    slug: "histoc-shops",
+    title: "HiStoc Shops",
+    type: "Commerce SaaS",
+    summary:
+      "Multi-tenant online shops with inventory, orders, suppliers, and profit reports built in.",
+    overview:
+      "Multi-tenant commerce platform for small sellers. Each shop gets a branded storefront on its own subdomain, backed by inventory, orders, suppliers, and profit reporting in one admin.",
+    highlights: [
+      "Branded storefront per shop on its own subdomain, plus a public shop directory",
+      "Inventory, orders, and suppliers in one admin, with stock and profit kept in step",
+      "Profit reports per product and per period",
+      "Unit, database, integration, and Playwright end-to-end test suites",
+    ],
+    tags: ["Next.js", "TypeScript", "PostgreSQL", "Supabase", "Vercel", "Playwright"],
+    href: "https://shops.histoc.com",
+    hrefLabel: "View live",
+    featured: true,
+  },
+  {
+    slug: "simsynk",
+    title: "SimSynk",
+    type: "Android App",
+    summary:
+      "Read and reply to one phone's SMS from any other Android device, end-to-end encrypted.",
+    overview:
+      "Android app that turns the phone holding the SIM into a gateway, so other Android devices can read and send its text messages. Messages sync through Firebase and are encrypted on the device before they leave it.",
+    highlights: [
+      "Native Kotlin module that sends replies through the gateway phone's SmsManager",
+      "AES-256-GCM encryption on both the JavaScript and Kotlin sides",
+      "Firestore sync with anonymous auth and free Expo push, with no server to run",
+      "Built for Google Play's cross-device SMS sync policy",
+    ],
+    tags: ["Expo", "React Native", "Kotlin", "Firebase", "Android"],
+    featured: true,
+  },
   {
     slug: "e-arbitrator",
     title: "E-Arbitrator",
